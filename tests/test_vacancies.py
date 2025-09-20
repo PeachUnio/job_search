@@ -39,3 +39,9 @@ def test_no_salary():
     result_2 = vac > vac_2
     assert result == "Зарплата не указана"
     assert result_2 == "Зарплата не указана"
+
+def test_error(jax_vac):
+    with pytest.raises(TypeError):
+        jax_vac > 9999
+    with pytest.raises(TypeError):
+        jax_vac == 9999
