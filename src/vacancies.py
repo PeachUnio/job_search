@@ -12,6 +12,9 @@ class Vacancy:
     def __str__(self):
         return f"Вакансия {self.name}\n{self.link}\nЗарплата {self.salary_from}-{self.salary_to} руб."
 
+    def __repr__(self):
+        return f"Vacancy('{self.name}', '{self.link}', '{self.description}', {self.salary_from}, {self.salary_to}, '{self.address}')"
+
     def __gt__(self, other):
         if isinstance(other, Vacancy):
             if self.salary_from > 0 or other.salary_from > 0:
