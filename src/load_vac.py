@@ -63,3 +63,32 @@ class LoadVacancy(BaseLoad):
 
         else:
             raise TypeError
+
+    def get_vacancies(self, criteria):
+        """Получить вакансии по критериям файла"""
+        with open(self.filename, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        filtered_vacancies = []
+        for item in data:
+            match = True
+            for key, value in criteria.items():
+                if key not in item or item[key] != value:
+                    match = False
+                    break
+            if match:
+                salary_from, salary_to = item['salary'].split("-")
+                dict_vacancy = Vacancy(name=item['name'],
+                                       link=item['link'],
+                                       description=item['description'],
+                                       salary_from=salary_from,
+                                       salary_to=salary_to,
+                                       address=item['address'])
+                filtered_vacancies.append(dict_vacancy)
+
+        return filtered_vacancies
+
+    def clear_all(self):
+        """Очистить все вакансии из JSON-файла"""
+        with open(self.filename, 'w', encoding='utf-8') as f:
+            json.dump([], f, ensure_ascii=False, indent=2)
