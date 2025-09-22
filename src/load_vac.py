@@ -7,15 +7,11 @@ class BaseLoad(ABC):
     """Базовый класс для загрузки вакансий"""
 
     @abstractmethod
-    def load_vac(self):
+    def load_vac(self, vacancy):
         pass
 
     @abstractmethod
-    def get_vac(self):
-        pass
-
-    @abstractmethod
-    def clean_vac(self):
+    def get_vac(self, criteria):
         pass
 
     @abstractmethod
@@ -64,7 +60,7 @@ class LoadVacancy(BaseLoad):
         else:
             raise TypeError
 
-    def get_vacancies(self, criteria):
+    def get_vac(self, criteria):
         """Получить вакансии по критериям файла"""
         with open(self.filename, 'r', encoding='utf-8') as f:
             data = json.load(f)
@@ -88,7 +84,7 @@ class LoadVacancy(BaseLoad):
 
         return filtered_vacancies
 
-    def clear_all(self):
+    def clean_all(self):
         """Очистить все вакансии из JSON-файла"""
         with open(self.filename, 'w', encoding='utf-8') as f:
             json.dump([], f, ensure_ascii=False, indent=2)
