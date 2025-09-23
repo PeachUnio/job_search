@@ -84,3 +84,24 @@ class HhAPI(BasicAPI):
 
         return sorted_vacancies
 
+
+    def sorted_by_world(self, keyword):
+        """Метод для сортировки вакансий по словам в описании"""
+        keyword_lower = keyword.lower()
+
+        def contains_keyword(vacancy):
+            """Проверяет, содержится ли ключевое слово в вакансии"""
+
+            snippet = vacancy.get('snippet', {})
+
+            requirement = snippet.get('requirement')
+            if requirement and keyword_lower in requirement.lower():
+                return True
+
+            responsibility = snippet.get('responsibility')
+            if responsibility and keyword_lower in responsibility.lower():
+                return True
+
+            return False
+
+        return [vacancy for vacancy in self.vacancies if contains_keyword(vacancy)]
