@@ -25,15 +25,8 @@ class HhAPI(BasicAPI):
         self.url = "https://api.hh.ru/vacancies"
         self.headers = {"User-Agent": "HH-User-Agent"}
         self.params = {"text": "", "page": 0, "per_page": 100}
-        HhAPI.vacancies = []
+        self.vacancies = []
 
-    @classmethod
-    def load_in_class(cls, vac_list):
-        return cls.vacancies.extend(vac_list)
-
-    @classmethod
-    def delete_all_vacancies(cls):
-        cls.vacancies = []
 
     def load_vacancies(self, keyword):
         """Поиск вакансий по ключевому слову"""
@@ -50,7 +43,6 @@ class HhAPI(BasicAPI):
                 data = response.json()
                 vacancies = data.get("items", [])
                 all_vacancies.extend(vacancies)
-                self.load_in_class(all_vacancies)
 
                 if page >= data.get("pages", 0) - 1:
                     break
@@ -60,8 +52,7 @@ class HhAPI(BasicAPI):
             except ValueError as e:
                 print(f"Ошибка с JSON: {e}")
                 break
+        self.vacancies = all_vacancies
         return all_vacancies
 
-    def sorted_by_salary(self):
-        pass
 
