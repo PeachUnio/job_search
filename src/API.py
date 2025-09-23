@@ -56,3 +56,31 @@ class HhAPI(BasicAPI):
         return all_vacancies
 
 
+    def sorted_by_salary(self):
+        """Метод для сортировки вакансий по зарплате"""
+
+        def get_salary_value(vacancy):
+            """Вспомогательная функция для получения числового значения зарплаты"""
+            salary = vacancy.get('salary')
+
+            if not salary:
+                return 0
+
+            salary_from = salary.get('from', 0) or 0
+            salary_to = salary.get('to', 0) or 0
+
+            if salary_to > 0:
+                return salary_to
+            elif salary_from > 0:
+                return salary_from
+            else:
+                return 0
+
+        sorted_vacancies = sorted(
+            self.vacancies,
+            key=get_salary_value,
+            reverse=True
+        )
+
+        return sorted_vacancies
+
