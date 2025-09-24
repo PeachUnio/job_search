@@ -27,6 +27,7 @@ class HhAPI(BasicAPI):
         self.params = {"text": "", "page": 0, "per_page": 100}
         self.vacancies = []
 
+
     def load_vacancies(self, keyword):
         """Поиск вакансий по ключевому слову"""
         self.params["text"] = keyword
@@ -51,4 +52,56 @@ class HhAPI(BasicAPI):
             except ValueError as e:
                 print(f"Ошибка с JSON: {e}")
                 break
+        self.vacancies = all_vacancies
         return all_vacancies
+
+
+    def sorted_by_salary(self):
+        """Метод для сортировки вакансий по зарплате"""
+
+        def get_salary_value(vacancy):
+            """Вспомогательная функция для получения числового значения зарплаты"""
+            salary = vacancy.get('salary')
+
+            if not salary:
+                return 0
+
+            salary_from = salary.get('from', 0) or 0
+            salary_to = salary.get('to', 0) or 0
+
+            if salary_to > 0:
+                return salary_to
+            elif salary_from > 0:
+                return salary_from
+            else:
+                return 0
+
+        sorted_vacancies = sorted(
+            self.vacancies,
+            key=get_salary_value,
+            reverse=True
+        )
+
+        return sorted_vacancies
+
+
+    def sorted_by_world(self, keyword):
+        """Метод для сортировки вакансий по словам в описании"""
+        keyword_lower = keyword.lower()
+
+        def contains_keyword(vacancy):
+            """Проверяет, содержится ли ключевое слово в вакансии"""
+
+            snippet = vacancy.get('snippet', {})
+
+            requirement = snippet.get('requirement')
+            if requirement and keyword_lower in requirement.lower():
+                return True
+
+            responsibility = snippet.get('responsibility')
+            if responsibility and keyword_lower in responsibility.lower():
+                return True
+
+            return False
+
+        return [vacancy for vacancy in self.vacancies if contains_keyword(vacancy)]
