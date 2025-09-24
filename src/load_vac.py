@@ -9,7 +9,7 @@ class BaseLoad(ABC):
     """Базовый класс для загрузки вакансий"""
 
     @abstractmethod
-    def load_vac(self, vacancy):
+    def load_vacancy(self, vacancy):
         pass
 
     @abstractmethod
@@ -36,7 +36,7 @@ class LoadVacancy(BaseLoad):
             with open(self.filename, "w", encoding="utf-8") as f:
                 json.dump([], f)
 
-    def load_vac(self, vacancy):
+    def load_vacancy(self, vacancy):
         """Функция, которая загружает вакансии в файл если их там нет"""
         if isinstance(vacancy, Vacancy):
             salary = f"{vacancy.salary_from}-{vacancy.salary_to}"
