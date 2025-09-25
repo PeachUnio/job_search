@@ -30,7 +30,7 @@ def function_for_user():
         if temp_list:
             filter_list = temp_list
 
-    yes_or_no = input("Загрузить топ N вакансий в отдельный файл (введите да лил нет): ").lower()
+    yes_or_no = input("Загрузить топ N вакансий в отдельный файл (введите да или нет): ").lower()
     if yes_or_no == "да":
         i = 0
         load = LoadVacancy()
