@@ -47,8 +47,8 @@ class Vacancy:
             salary = list_from_hh_api.get("salary")
 
             if salary:
-                salary_from = salary.get('from', 0) or 0
-                salary_to = salary.get('to', 0) or 0
+                salary_from = salary.get("from", 0) or 0
+                salary_to = salary.get("to", 0) or 0
             else:
                 salary_from = 0
                 salary_to = 0
@@ -56,15 +56,16 @@ class Vacancy:
             name = list_from_hh_api.get("name") or ""
             link = list_from_hh_api.get("apply_alternate_url") or ""
             address = list_from_hh_api.get("area", {}).get("name") or ""
-            description = list_from_hh_api.get('snippet', {}).get("requirement")
+            description = list_from_hh_api.get("snippet", {}).get("requirement")
 
-            return cls(name=name,
-                       link=link,
-                       description=description,
-                       salary_from=salary_from,
-                       salary_to=salary_to,
-                       address=address)
+            return cls(
+                name=name,
+                link=link,
+                description=description,
+                salary_from=salary_from,
+                salary_to=salary_to,
+                address=address,
+            )
 
         except TypeError:
             return []
-

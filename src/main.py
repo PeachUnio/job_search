@@ -1,6 +1,6 @@
 from src.API import HhAPI
-from src.vacancies import Vacancy
 from src.load_vac import LoadVacancy
+from src.vacancies import Vacancy
 
 
 def function_for_user():
@@ -50,4 +50,6 @@ def function_for_user():
             if i == top_n:
                 break
 
-function_for_user()
+
+if __name__ == "__main__":
+    function_for_user()
