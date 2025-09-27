@@ -46,3 +46,9 @@ def test_error(jax_vac):
         jax_vac > 9999
     with pytest.raises(TypeError):
         jax_vac == 9999
+
+def test_empty():
+    with pytest.raises(ValueError):
+        vac = Vacancy("", "htts://empty.com", "", 0, 0, "")
+    with pytest.raises(ValueError):
+        vac_2 = Vacancy("Empty", "", "", 0, 0, "")

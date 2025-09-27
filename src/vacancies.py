@@ -9,6 +9,14 @@ class Vacancy:
         self.salary_to = salary_to
         self.address = address
 
+        # Валедации названия вакансии
+        if not isinstance(self.name, str) or len(self.name) == 0:
+            raise ValueError("Название вакансии должно быть непустой строкой")
+
+        # Валедации ссылки на вакансию
+        if not isinstance(self.link, str) or len(self.link) == 0:
+            raise ValueError("Ссылка на вакансию должно быть непустой строкой")
+
     def __str__(self):
         return f"Вакансия {self.name}\n{self.link}\nЗарплата {self.salary_from}-{self.salary_to} руб."
 
@@ -47,8 +55,8 @@ class Vacancy:
             salary = list_from_hh_api.get("salary")
 
             if salary:
-                salary_from = salary.get('from', 0) or 0
-                salary_to = salary.get('to', 0) or 0
+                salary_from = salary.get("from", 0) or 0
+                salary_to = salary.get("to", 0) or 0
             else:
                 salary_from = 0
                 salary_to = 0
@@ -56,15 +64,16 @@ class Vacancy:
             name = list_from_hh_api.get("name") or ""
             link = list_from_hh_api.get("apply_alternate_url") or ""
             address = list_from_hh_api.get("area", {}).get("name") or ""
-            description = list_from_hh_api.get('snippet', {}).get("requirement")
+            description = list_from_hh_api.get("snippet", {}).get("requirement")
 
-            return cls(name=name,
-                       link=link,
-                       description=description,
-                       salary_from=salary_from,
-                       salary_to=salary_to,
-                       address=address)
+            return cls(
+                name=name,
+                link=link,
+                description=description,
+                salary_from=salary_from,
+                salary_to=salary_to,
+                address=address,
+            )
 
         except TypeError:
             return []
-
