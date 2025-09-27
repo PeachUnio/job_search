@@ -41,7 +41,7 @@ def test_check_exist_file(load_vacancy):
 
 def test_load_vacancy_success(load_vacancy, sample_vacancy):
     """Тестируем успешную загрузку вакансии"""
-    load_vacancy.load_vac(sample_vacancy)
+    load_vacancy.load_vacancy(sample_vacancy)
 
     with open("test_vacancies.json", "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -53,8 +53,8 @@ def test_load_vacancy_success(load_vacancy, sample_vacancy):
 
 def test_load_vacancy_duplicate(load_vacancy, sample_vacancy):
     """Тестируем что дубликаты не добавляются"""
-    load_vacancy.load_vac(sample_vacancy)
-    load_vacancy.load_vac(sample_vacancy)  # Дубликат
+    load_vacancy.load_vacancy(sample_vacancy)
+    load_vacancy.load_vacancy(sample_vacancy)  # Дубликат
 
     with open("test_vacancies.json", "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -65,12 +65,12 @@ def test_load_vacancy_duplicate(load_vacancy, sample_vacancy):
 def test_load_vacancy_type_error(load_vacancy):
     """Тестируем ошибку типа"""
     with pytest.raises(TypeError):
-        load_vacancy.load_vac("not a vacancy")  # Передаем строку вместо Vacancy
+        load_vacancy.load_vacancy("not a vacancy")  # Передаем строку вместо Vacancy
 
 
 def test_get_vacancy_by_criteria(load_vacancy, sample_vacancy):
     """Тестируем поиск по критериям"""
-    load_vacancy.load_vac(sample_vacancy)
+    load_vacancy.load_vacancy(sample_vacancy)
 
     result = load_vacancy.get_vac({"name": "Python Developer"})
     assert len(result) == 1
@@ -81,7 +81,7 @@ def test_get_vacancy_by_criteria(load_vacancy, sample_vacancy):
 
 
 def test_clean_all(load_vacancy, sample_vacancy):
-    load_vacancy.load_vac(sample_vacancy)
+    load_vacancy.load_vacancy(sample_vacancy)
 
     load_vacancy.clean_all()
 
@@ -93,7 +93,7 @@ def test_clean_all(load_vacancy, sample_vacancy):
 
 def test_get_vacancy_salary_conversion(load_vacancy, sample_vacancy):
     """Тестируем преобразование salary из строки в числа"""
-    load_vacancy.load_vac(sample_vacancy)
+    load_vacancy.load_vacancy(sample_vacancy)
 
     result = load_vacancy.get_vac({"name": "Python Developer"})
     vacancy = result[0]
