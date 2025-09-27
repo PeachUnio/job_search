@@ -2,7 +2,7 @@ class Vacancy:
     """Класс для вакансий"""
 
     def __init__(self, name: str, link: str, description: str, salary_from: int, salary_to: int, address: str):
-        self.name = name,
+        self.name = name
         self.link = link
         self.description = description
         self.salary_from = salary_from
